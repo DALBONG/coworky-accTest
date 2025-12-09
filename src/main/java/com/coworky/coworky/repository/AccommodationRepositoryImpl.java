@@ -27,17 +27,25 @@ public class AccommodationRepositoryImpl
 
         BooleanBuilder bBuilder = new BooleanBuilder();
 
+        // 공백 제거 값
+        String nameKey = filter.getName() != null ? filter.getName().trim() : null;
+        String descriptKey = filter.getDescription() != null ? filter.getDescription().trim() : null;
+        String detailKey = filter.getDetailInfo() != null ? filter.getDetailInfo().trim() : null;
+        String cityKey = filter.getCity() != null ? filter.getCity().trim() : null;
+        String addressKey = filter.getAddress() != null ? filter.getAddress().trim() : null;
+        String region = filter.getRegion();
+
         // 숙소 이름 키워드 검색 필터
-        if (filter.getName() != null && !filter.getName().trim().isEmpty()) {
-            bBuilder.and(acc.name.contains(filter.getName()));
+        if (nameKey != null && !nameKey.isEmpty()) {
+            bBuilder.and(acc.name.contains(nameKey));
         }
         // 숙소 소개 키워드 검색 필터
-        if (filter.getDescription() != null && !filter.getDescription().trim().isEmpty()) {
-            bBuilder.and(acc.description.contains(filter.getDescription()));
+        if (descriptKey != null && !descriptKey.isEmpty()) {
+            bBuilder.and(acc.description.contains(descriptKey));
         }
         // 숙소 상세소개 키워드 검색 필터
-        if (filter.getDetailInfo() != null && !filter.getDetailInfo().trim().isEmpty()) {
-            bBuilder.and(acc.detailInfo.contains(filter.getDetailInfo()));
+        if (detailKey != null && !detailKey.isEmpty()) {
+            bBuilder.and(acc.detailInfo.contains(detailKey));
         }
         // 최소 금액 필터
         if (filter.getMinPrice() != null){
@@ -56,16 +64,16 @@ public class AccommodationRepositoryImpl
             bBuilder.and(acc.type.eq(filter.getType()));
         }
         // 지역 셀렉 필터
-        if (filter.getRegion() != null) {
-            bBuilder.and(acc.location.region.eq(filter.getRegion()));
+        if (region != null) {
+            bBuilder.and(acc.location.region.eq(region));
         }
         // 도시 검색 필터
-        if (filter.getCity() != null && !filter.getCity().trim().isEmpty()) {
-            bBuilder.and(acc.location.city.contains(filter.getCity()));
+        if (cityKey != null && !cityKey.isEmpty()) {
+            bBuilder.and(acc.location.city.contains(cityKey));
         }
         // 주소 검색 필터
-        if (filter.getAddress() != null && !filter.getAddress().trim().isEmpty()) {
-            bBuilder.and(acc.location.address.contains(filter.getAddress()));
+        if (addressKey != null && !addressKey.isEmpty()) {
+            bBuilder.and(acc.location.address.contains(addressKey));
         }
 
         // 검색 쿼리.
