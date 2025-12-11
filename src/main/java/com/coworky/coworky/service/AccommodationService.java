@@ -43,6 +43,11 @@ public class AccommodationService {
         // 3. 키워드 추천
         keywordRecommend(accSearchfilter, recommendFilter);
 
+        // 4. enableScore 적용
+        if (accSearchfilter.isEnableScore()){
+            recommendFilter.setEnableScore(true);
+        }
+
         List<Accommodation> result = accRepository.search(recommendFilter);
 
         return result;
