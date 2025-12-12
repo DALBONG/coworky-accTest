@@ -21,30 +21,20 @@ public class AccommodationController {
     // 전체 조회 id순 정렬.
     @GetMapping("/")
     public List<AccommodationDto> baseList(){
-        return accService.getBaseList()
-                .stream()
-                .map(accService :: toDto)
-                .toList();
+        return accService.getBaseList();
     }
 
     // 검색 API
     @GetMapping("/search")
     public List<AccommodationDto> searchList(AccomSearchFilterDto filter){
-        return accService.search(filter)
-                .stream()
-                .map(accService :: toDto)
-                .toList();
+        return accService.search(filter);
     }
 
     // 추천 Api
     @GetMapping("/recommend")
-    public List<AccommodationDto> recommend(AccomSearchRecommendDto recommendDto) {
+    public List<AccommodationDto> recommend(AccomSearchFilterDto filter) {
 
-        AccomSearchFilterDto filter = recommendDto.recommendFilter();
-
-        return accService.search(filter)
-                .stream()
-                .map(accService :: toDto)
-                .toList();
+        //AccomSearchFilterDto filter = recommendDto.recommendFilter();
+        return accService.recommend(filter);
     };
 }

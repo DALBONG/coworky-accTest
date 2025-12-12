@@ -20,18 +20,23 @@ public class AccommodationService {
 
     private final AccommodationRepository accRepository;
 
-    public List<Accommodation> search(AccomSearchFilterDto filter){
-        return accRepository.search(filter);
+    public List<AccommodationDto> search(AccomSearchFilterDto filter){
+        return accRepository.search(filter)
+                            .stream()
+                            .map(this::toDto)
+                            .collect(Collectors.toList());
     }
 
     // 초기 화면 (id순 조회)
-    public List<Accommodation> getBaseList(){
+    public List<AccommodationDto> getBaseList(){
         List<Accommodation> ascIdList = accRepository.findAll(Sort.by("id"));
-        return ascIdList;
+        return ascIdList.stream()
+                        .map(this::toDto)
+                        .collect(Collectors.toList());
     }
 
     // 추천 숙소 로직
-    public List<Accommodation> recommend(AccomSearchFilterDto accSearchfilter){
+    public List<AccommodationDto> recommend(AccomSearchFilterDto accSearchfilter){
         AccomSearchFilterDto recommendFilter = new AccomSearchFilterDto();
 
         // 1. 지역 기준 추천
@@ -50,7 +55,9 @@ public class AccommodationService {
 
         List<Accommodation> result = accRepository.search(recommendFilter);
 
-        return result;
+        return result.stream()
+                    .map(this::toDto)
+                    .collect(Collectors.toList());
     }
 
     // 1. 지역 기준 로직

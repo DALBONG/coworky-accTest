@@ -2,6 +2,7 @@ package com.coworky.coworky.service;
 
 import com.coworky.coworky.domain.Accommodation;
 import com.coworky.coworky.dto.AccomSearchFilterDto;
+import com.coworky.coworky.dto.AccommodationDto;
 import com.coworky.coworky.repository.AccommodationRepository;
 import com.coworky.coworky.util.TestUtils;
 import org.junit.jupiter.api.DisplayName;
@@ -46,7 +47,7 @@ class AccommodationServiceTest {
                 .willReturn(mockEntity);
 
         // t+when
-        List<Accommodation> searchResult = accService.search(searchFilter);
+        List<AccommodationDto> searchResult = accService.search(searchFilter);
 
         // 1. 레포가 정확히 한번 호출 되었나? 검증
         verify(accRepository).search(searchFilter);
@@ -57,12 +58,12 @@ class AccommodationServiceTest {
         // 3. DTO 변환 확인 검증
         assertThat(searchResult.get(0).getName())
                 .isEqualTo(accA.getName());
-        assertThat(searchResult.get(1).getBasePrice())
-                .isEqualByComparingTo(accB.getBasePrice());
+        assertThat(searchResult.get(1).getPrice())
+                .isEqualTo(accB.getBasePrice().intValue());
 
         System.out.println("--- 테스트 결과 DTO 내용 ---");
         System.out.println("1번 숙소 이름 (기대값: " + accA.getName() + ") = " + searchResult.get(0).getName());
-        System.out.println("2번 숙소 가격 (기대값: " + accB.getBasePrice() + ") = " + searchResult.get(1).getBasePrice());
+        System.out.println("2번 숙소 가격 (기대값: " + accB.getBasePrice() + ") = " + searchResult.get(1).getPrice());
         System.out.println("---------------------------");
     }
 
@@ -77,7 +78,7 @@ class AccommodationServiceTest {
                 .willReturn(List.of());
         
         //when
-        List<Accommodation> searchResult = accService.search(searchFilter);
+        List<AccommodationDto> searchResult = accService.search(searchFilter);
     
         //then
         verify(accRepository).search(searchFilter);
@@ -239,7 +240,7 @@ class AccommodationServiceTest {
         given(accRepository.search(any(AccomSearchFilterDto.class)))
                 .willReturn(scoreOrder);
         //when
-        List<Accommodation> scoreResult = accRepository.search(scoreFilter);
+        List<AccommodationDto> scoreResult = accService.recommend(scoreFilter);
     
         //then
         assertThat(scoreResult).hasSize(2);
@@ -258,7 +259,7 @@ class AccommodationServiceTest {
         given(accRepository.search(any(AccomSearchFilterDto.class)))
                 .willReturn(nomalOrder);
         //when
-        List<Accommodation> nomalResult = accRepository.search(nomalFilter);
+        List<AccommodationDto> nomalResult = accService.recommend(nomalFilter);
 
         //then
         assertThat(nomalResult).hasSize(2);
