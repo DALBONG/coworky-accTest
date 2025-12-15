@@ -13,6 +13,7 @@ public class AccommodationDto {
     private String name;
     private String address;
     private Integer capacity;
+    private Integer standardCapacity;
     private String description;
     private Integer price;
     private Set<TagDto> tags;

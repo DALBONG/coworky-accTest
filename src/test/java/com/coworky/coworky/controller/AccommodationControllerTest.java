@@ -1,5 +1,7 @@
 package com.coworky.coworky.controller;
 
+import com.coworky.coworky.config.TestCacheConfig;
+import com.coworky.coworky.config.TestQueryDslConfig;
 import com.coworky.coworky.domain.Accommodation;
 import com.coworky.coworky.dto.AccomSearchFilterDto;
 import com.coworky.coworky.dto.AccommodationDto;
@@ -11,6 +13,8 @@ import org.junit.jupiter.api.Test;
 import org.mockito.BDDMockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.webmvc.test.autoconfigure.WebMvcTest;
+import org.springframework.cache.annotation.EnableCaching;
+import org.springframework.context.annotation.Import;
 import org.springframework.http.MediaType;
 import org.springframework.test.context.bean.override.mockito.MockitoBean;
 import org.springframework.test.web.servlet.MockMvc;
@@ -39,6 +43,8 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @WebMvcTest(AccommodationController.class)
+@Import(TestCacheConfig.class)
+@EnableCaching
 class AccommodationControllerTest {
 
     @Autowired
@@ -59,10 +65,10 @@ class AccommodationControllerTest {
         AccommodationDto.TagDto tag3 = new AccommodationDto.TagDto("PRINTER", "사무기기");
 
         AccommodationDto acc1 = new AccommodationDto(
-                1L, "천안 호두과자 워케이션 리조트", "충남 천안시 서북구 불당 32길", 6, "인근 자연공원과, 호두과자 서비스", 60000, Set.of(tag1, tag2)
+                1L, "천안 호두과자 워케이션 리조트", "충남 천안시 서북구 불당 32길", 6, 4, "인근 자연공원과, 호두과자 서비스", 60000, Set.of(tag1, tag2)
         );
         AccommodationDto acc2 = new AccommodationDto(
-                2L, "빈센트 부안고흐 펜션", "전북 부안군 변산면 대항리 567", 5, "인근 해변과 항구, 낭만의 곤충 생태공원까지", 50000, Set.of(tag3, tag2)
+                2L, "빈센트 부안고흐 펜션", "전북 부안군 변산면 대항리 567", 5, 5, "인근 해변과 항구, 낭만의 곤충 생태공원까지", 50000, Set.of(tag3, tag2)
         );
         mockDtoList = List.of(acc1, acc2);
 

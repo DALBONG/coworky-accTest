@@ -41,7 +41,10 @@ public class Accommodation {
     private BigDecimal weekendPrice; // 주말 금액
 
     @Column(name = "capacity", nullable = false)
-    private Integer capacity; // 기준 인원
+    private Integer capacity; // 최대 인원
+
+    @Column(name = "standard_capacity", nullable = false)
+    private Integer standardCapacity; // 기준 인원
 
     @Column(name = "detail_info", nullable = false, length = 4000)
     private String detailInfo; // 상세 정보
@@ -82,6 +85,7 @@ public class Accommodation {
         BigDecimal weekdayPrice,
         BigDecimal weekendPrice,
         Integer capacity,
+        Integer standardCapacity,
         String detailInfo,
         Set<AccommodationTags> tags,
         AccommodationType type,
@@ -94,6 +98,7 @@ public class Accommodation {
         acc.weekdayPrice = weekdayPrice;
         acc.weekendPrice = weekendPrice;
         acc.capacity = capacity;
+        acc.standardCapacity = standardCapacity;
         acc.detailInfo = detailInfo;
         acc.tags = tags != null ? tags : new HashSet<>();
         acc.type = type;

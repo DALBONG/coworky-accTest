@@ -1,7 +1,6 @@
 package com.coworky.coworky.controller;
 
 import com.coworky.coworky.dto.AccomSearchFilterDto;
-import com.coworky.coworky.dto.AccomSearchRecommendDto;
 import com.coworky.coworky.dto.AccommodationDto;
 import com.coworky.coworky.service.AccommodationService;
 import lombok.RequiredArgsConstructor;

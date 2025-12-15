@@ -1,9 +1,9 @@
 package com.coworky.coworky.repository;
 
 import com.coworky.coworky.InitDb.AccommodationDb;
+import com.coworky.coworky.config.TestCacheConfig;
 import com.coworky.coworky.config.TestQueryDslConfig;
 import com.coworky.coworky.domain.Accommodation;
-import com.coworky.coworky.domain.AccommodationTags;
 import com.coworky.coworky.domain.AccommodationType;
 import com.coworky.coworky.domain.Location;
 import com.coworky.coworky.dto.AccomSearchFilterDto;
@@ -14,6 +14,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.data.jpa.test.autoconfigure.DataJpaTest;
 import org.springframework.boot.jdbc.test.autoconfigure.AutoConfigureTestDatabase;
+import org.springframework.cache.annotation.EnableCaching;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.FilterType;
 import org.springframework.context.annotation.Import;
@@ -42,7 +43,8 @@ import static org.assertj.core.api.Assertions.assertThat;
         "spring.jpa.show-sql=true"
 })
 @Import({AccommodationRepositoryImpl.class,
-         TestQueryDslConfig.class})
+         TestQueryDslConfig.class,
+         TestCacheConfig.class})
 @Transactional
 class AccommodationRepositoryTest {
 
@@ -61,7 +63,7 @@ class AccommodationRepositoryTest {
 
         Accommodation accA = Accommodation.createAccommodation(
                 "대전 성심 워케이션 호텔", "성심당과 가까운 업무 친화적 호텔입니다.",
-                new BigDecimal("60000"), new BigDecimal("60000"), new BigDecimal("80000"), 4,
+                new BigDecimal("60000"), new BigDecimal("60000"), new BigDecimal("80000"), 4, 4,
                 "성심당 도보 3분, 넓은 데스크",
                 Set.of(WIFI, OFFICE, CAFETERIA),
                 AccommodationType.HOTEL,
@@ -76,7 +78,7 @@ class AccommodationRepositoryTest {
 
         Accommodation accB = Accommodation.createAccommodation(
                 "가평 자라섬 워케이션 캠핑", "낭만의 캠핑과 넓은 사무실, 탁트인 자연과 함께합니다.",
-                new BigDecimal("30000"), new BigDecimal("30000"), new BigDecimal("40000"), 4,
+                new BigDecimal("30000"), new BigDecimal("30000"), new BigDecimal("40000"), 4, 4,
                 "탁트인 전망, 넓은 사무실, 넓은 돔형 텐트",
                 Set.of(WIFI, OFFICE, KITCHEN, FITNESS),
                 AccommodationType.STAY,

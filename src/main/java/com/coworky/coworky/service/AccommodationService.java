@@ -22,17 +22,17 @@ public class AccommodationService {
 
     public List<AccommodationDto> search(AccomSearchFilterDto filter){
         return accRepository.search(filter)
-                            .stream()
-                            .map(this::toDto)
-                            .collect(Collectors.toList());
+                .stream()
+                .map(this::toDto)
+                .collect(Collectors.toList());
     }
 
     // 초기 화면 (id순 조회)
     public List<AccommodationDto> getBaseList(){
         List<Accommodation> ascIdList = accRepository.findAll(Sort.by("id"));
         return ascIdList.stream()
-                        .map(this::toDto)
-                        .collect(Collectors.toList());
+                .map(this::toDto)
+                .collect(Collectors.toList());
     }
 
     // 추천 숙소 로직
@@ -56,8 +56,8 @@ public class AccommodationService {
         List<Accommodation> result = accRepository.search(recommendFilter);
 
         return result.stream()
-                    .map(this::toDto)
-                    .collect(Collectors.toList());
+                .map(this::toDto)
+                .collect(Collectors.toList());
     }
 
     // 1. 지역 기준 로직
@@ -118,16 +118,17 @@ public class AccommodationService {
                 acc.getName(),
                 acc.getLocation().getAddress(),
                 acc.getCapacity(),
+                acc.getStandardCapacity(),
                 acc.getDescription(),
                 acc.getBasePrice().intValue(),
                 acc.getTags().stream()
-                             .map(tag ->
-                                     new AccommodationDto.TagDto(
-                                             tag.name(),
-                                             tag.getAccommodationTags()
-                                     )
-                             )
-                            .collect(Collectors.toSet())
+                        .map(tag ->
+                                new AccommodationDto.TagDto(
+                                        tag.name(),
+                                        tag.getAccommodationTags()
+                                )
+                        )
+                        .collect(Collectors.toSet())
         );
         return accDto;
     }
